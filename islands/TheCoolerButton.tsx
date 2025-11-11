@@ -32,9 +32,9 @@ export default function TheCoolerButton(props: TheCoolerButtonProps) {
         <>
             <audio ref={arabicRef} src={arabic} loop autoplay />
             <audio ref={bowompRef} src={bowomp} />
-            <a href={props.coolerLink}>
+            <button onClick={handleClick}>
                 <img src={coolcar} alt="autito" />
-            </a>
+            </button>
         </>
     );
 }
