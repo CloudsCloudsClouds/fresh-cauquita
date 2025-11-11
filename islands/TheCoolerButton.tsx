@@ -1,5 +1,7 @@
 import coolcar from "../assets/coolcar.gif"
 import arabic from "../assets/arabic.mp3"
+import bowomp from "../assets/bowomp.mp3"
+import { useRef } from "preact/hooks";
 
 
 interface TheCoolerButtonProps {
@@ -7,9 +9,32 @@ interface TheCoolerButtonProps {
 }
 
 export default function TheCoolerButton(props: TheCoolerButtonProps) {
+    const arabicRef = useRef<HTMLAudioElement>(null);
+    const bowompRef = useRef<HTMLAudioElement>(null);
+    
+    const handleClick = (e: MouseEvent) => {
+        e.preventDefault();
+        if (arabicRef.current) {
+            arabicRef.current.pause();
+        }
+
+        if (bowompRef.current) {
+            bowompRef.current.currentTime = 0;
+            bowompRef.current.play();
+
+            setTimeout(() => {
+                window.location.href = props.coolerLink;
+            }, 2000);
+        }
+    };
+    
     return (
-        <a href={props.coolerLink}>
-            <img src={coolcar} alt="autito" />
-        </a>
+        <>
+            <audio ref={arabicRef} src={arabic} loop autoplay />
+            <audio ref={bowompRef} src={bowomp} />
+            <a href={props.coolerLink}>
+                <img src={coolcar} alt="autito" />
+            </a>
+        </>
     );
 }
