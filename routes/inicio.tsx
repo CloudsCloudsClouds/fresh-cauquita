@@ -3,6 +3,7 @@ import { Head,  } from "fresh/runtime";
 import { define } from "../utils.ts";
 import Counter from "../islands/Counter.tsx";
 import NavBar from "../islands/NavBar.tsx";
+import DownloadFromItch from "../components/DownloadFromItch.tsx";
 
 
 
@@ -30,7 +31,7 @@ export default define.page(function Home(ctx) {
       </section>
       
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        
+        <DownloadFromItch />
       </div>
     </div>
   );
