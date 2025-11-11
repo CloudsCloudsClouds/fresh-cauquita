@@ -1,4 +1,3 @@
-import type Signal from "@preact/signals";
 import coolcar from "../assets/coolcar.gif"
 
 interface TheCoolerButtonProps {
