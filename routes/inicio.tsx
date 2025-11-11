@@ -1,9 +1,7 @@
 import { useSignal } from "@preact/signals";
-import { Head } from "fresh/runtime";
+import { Head,  } from "fresh/runtime";
 import { define } from "../utils.ts";
 import Counter from "../islands/Counter.tsx";
-
-
 
 
 export default define.page(function Home(ctx) {
@@ -17,11 +15,9 @@ export default define.page(function Home(ctx) {
         <title>Cauquita Racer</title>
       </Head>
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <h1 class="text-4xl font-bold mb-4 text-blue-950"> Bienvenido Cauquita Racer</h1>
-        <a href="/inicio" class="mt-8 text-yellow-500" data-f-partial>
-          Empezamos
-          <img src="" alt="" />
-        </a>
+        <h1 class="text-4xl font-bold mb-4 text-blue-950">Preparado para la carrera</h1>
+        <p class="mt-4 text-lg">Esto es un juego de carreras</p>
+       
 
       </div>
     </div>
