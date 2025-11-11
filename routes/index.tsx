@@ -18,8 +18,9 @@ export default define.page(function Home(ctx) {
       </Head>
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
         <h1 class="text-4xl font-bold mb-4 text-blue-950"> Bienvenido Cauquita Racer</h1>
-        <a href="/inicio" class="mt-8 text-pink-500 hover:underline" data-f-partial>
+        <a href="/inicio" class="mt-8 text-yellow-500" data-f-partial>
           Empezamos
+          <img src="" alt="" />
         </a>
 
       </div>
