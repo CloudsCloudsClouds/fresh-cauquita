@@ -1,4 +1,6 @@
 import coolcar from "../assets/coolcar.gif"
+import arabic from "../assets/arabic.mp3"
+
 
 interface TheCoolerButtonProps {
     coolerLink: string;
