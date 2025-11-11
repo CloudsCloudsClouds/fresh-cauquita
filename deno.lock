@@ -1125,6 +1125,7 @@
     "dependencies": [
       "jsr:@fresh/core@^2.1.4",
       "jsr:@fresh/plugin-vite@^1.0.7",
+      "jsr:@preact/signals-core@1",
       "npm:@preact/signals@^2.3.2",
       "npm:@tailwindcss/vite@^4.1.12",
       "npm:preact@^10.27.2",
