@@ -1,0 +1,14 @@
+.pixel-title {
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  letter-spacing: 0.2em;
+  text-shadow: 4px 4px 0 #a41ae0;
+  text-transform: uppercase;
+}
+
+
+.pixel-inicio {
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  letter-spacing: 0.2em;
+  text-shadow: 4px 4px 0 #c4246e;
+  text-transform: uppercase;
+}
