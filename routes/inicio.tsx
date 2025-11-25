@@ -19,14 +19,13 @@ export default define.page(function Home(ctx) {
         <title>Cauquita Racer</title>
       </Head>
       
-      <NavBar></NavBar>
+
 
 
        {/* HERO */}
       <section id="juego" class="h-[85vh] flex items-center justify-center fresh-gradient text-center">
         <div class="px-4">
           <h1 class="text-5xl md:text-7xl font-extrabold drop-shadow">Preparado para la carrera</h1>
-          <p class="mt-4 text-xl text-white/80">Arcade con vibra GTA-like.</p>
         </div>
       </section>
       
