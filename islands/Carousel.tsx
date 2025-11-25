@@ -1,5 +1,6 @@
 // islands/Carousel.tsx
 import { useEffect, useState } from "preact/hooks";
+import { Button } from "../components/Button.tsx";
 
 type Props = {
   images: string[];
@@ -32,7 +33,7 @@ export default function Carousel({ images, interval = 4000 }: Props) {
       ))}
 
       {/* controles */}
-      <button onClick={prev}
+      <button  onClick={prev}
         class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white px-3 py-1 rounded">
         ‹
       </button>
