@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "preact/hooks";
 import cauquita_logo from "../assets/cauquita_logo.png";
 import boing from "../assets/boing.mp3";
 
-const GRAVITY = 400; // A bit more gravity to feel weighty
-const RESTITUTION = 0.8; // Bounciness factor (80% energy retention)
-const UPWARD_FORCE_MAGNITUDE = -300; // Negative for upward direction
+// Set a constant speed for the screensaver effect
+const SPEED = 200; // pixels per second
 
 export default function Logito() {
   const [position, setPosition] = useState({ x: 50, y: 50 });
-  const [velocity, setVelocity] = useState({ vx: 50, vy: 0 }); // Start with some initial horizontal velocity
+  // Start with a diagonal velocity
+  const [velocity, setVelocity] = useState({ vx: SPEED, vy: SPEED });
+  const [hue, setHue] = useState(0); // For changing color on bounce
   const lastTimeRef = useRef(performance.now());
   const animationFrameIdRef = useRef<number>();
   const componentRef = useRef<HTMLDivElement>(null);
@@ -18,11 +19,10 @@ export default function Logito() {
     audio.play().catch((e) => console.error("Error playing sound:", e));
   };
 
+  // The click no longer affects physics, just plays a sound for fun
   const handleClick = (e: MouseEvent) => {
-    e.stopPropagation(); // Prevents clicks from bubbling up
+    e.stopPropagation();
     playSound();
-    // Apply upward force
-    setVelocity((v) => ({ ...v, vy: v.vy + UPWARD_FORCE_MAGNITUDE }));
   };
 
   useEffect(() => {
@@ -30,69 +30,64 @@ export default function Logito() {
       const deltaTime = (currentTime - lastTimeRef.current) / 1000;
       lastTimeRef.current = currentTime;
 
-      if (!componentRef.current) return;
+      if (!componentRef.current) {
+        animationFrameIdRef.current = requestAnimationFrame(updatePhysics);
+        return;
+      }
 
       const { innerWidth, innerHeight } = window;
       const { width, height } = componentRef.current.getBoundingClientRect();
 
-      // Apply gravity
-      setVelocity((v) => ({ ...v, vy: v.vy + GRAVITY * deltaTime }));
+      let newVx = velocity.vx;
+      let newVy = velocity.vy;
+      let newX = position.x + newVx * deltaTime;
+      let newY = position.y + newVy * deltaTime;
+      let bounced = false;
 
-      // Update position
-      setPosition((p) => ({
-        x: p.x + velocity.vx * deltaTime,
-        y: p.y + velocity.vy * deltaTime,
-      }));
+      // Horizontal bounce
+      if (newX + width > innerWidth) {
+        newX = innerWidth - width;
+        newVx = -Math.abs(newVx); // Ensure it moves left
+        bounced = true;
+      } else if (newX < 0) {
+        newX = 0;
+        newVx = Math.abs(newVx); // Ensure it moves right
+        bounced = true;
+      }
 
-      // Collision detection and response
-      setPosition((p) => {
-        let newX = p.x;
-        let newY = p.y;
-        let newVx = velocity.vx;
-        let newVy = velocity.vy;
-        let bounced = false;
+      // Vertical bounce
+      if (newY + height > innerHeight) {
+        newY = innerHeight - height;
+        newVy = -Math.abs(newVy); // Ensure it moves up
+        bounced = true;
+      } else if (newY < 0) {
+        newY = 0;
+        newVy = Math.abs(newVy); // Ensure it moves down
+        bounced = true;
+      }
 
-        // Horizontal bounce
-        if (p.x + width > innerWidth) {
-          newX = innerWidth - width;
-          newVx = -velocity.vx * RESTITUTION;
-          bounced = true;
-        } else if (p.x < 0) {
-          newX = 0;
-          newVx = -velocity.vx * RESTITUTION;
-          bounced = true;
-        }
+      if (bounced) {
+        playSound();
+        // Change color on bounce
+        setHue((prevHue) => (prevHue + 60) % 360);
+      }
 
-        // Vertical bounce
-        if (p.y + height > innerHeight) {
-          newY = innerHeight - height;
-          newVy = -velocity.vy * RESTITUTION;
-          bounced = true;
-        } else if (p.y < 0) {
-          newY = 0;
-          newVy = -velocity.vy * RESTITUTION;
-          bounced = true;
-        }
-
-        if (bounced) {
-          playSound();
-        }
-
-        setVelocity({ vx: newVx, vy: newVy });
-        return { x: newX, y: newY };
-      });
+      setPosition({ x: newX, y: newY });
+      setVelocity({ vx: newVx, vy: newVy });
 
       animationFrameIdRef.current = requestAnimationFrame(updatePhysics);
     };
 
+    // Start the animation loop
     animationFrameIdRef.current = requestAnimationFrame(updatePhysics);
 
+    // Cleanup function to cancel the animation frame when the component unmounts
     return () => {
       if (animationFrameIdRef.current) {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [velocity]); // Re-run effect if velocity state changes
+  }, [position, velocity]); // Rerun effect if state changes from an external source
 
   return (
     <div
@@ -104,9 +99,9 @@ export default function Logito() {
         left: 0,
         top: 0,
         transform: `translate(${position.x}px, ${position.y}px)`,
-        touchAction: "none", // Good for mobile to prevent scrolling
-        userSelect: "none", // Prevents text selection on rapid clicks
-        width: "100px", // Set a fixed size for consistent physics
+        touchAction: "none",
+        userSelect: "none",
+        width: "120px", // A bit bigger is nice for a screensaver
       }}
     >
       <img
@@ -114,7 +109,8 @@ export default function Logito() {
         alt="Cauquita Logo"
         style={{
           width: "100%",
-          display: "block", // Prevents small gap below image
+          display: "block",
+          filter: `hue-rotate(${hue}deg)`, // Apply color change
         }}
       />
     </div>
