@@ -11,15 +11,15 @@ export default function NavBar() {
 
         {/* menú desktop */}
         <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="/#juego" class="hover:underline">El juego</a>
-          <a href="/#caracteristicas" class="hover:underline">Características</a>
-          <a href="/#galeria" class="hover:underline">Galería</a>
-          <a href="/#contacto" class="hover:underline">Contacto</a>
+          <a href="/#juego" class="hover:underline">Informacion</a>
+          <a href="/#caracteristicas" class="hover:underline"></a>
+          <a href="/#galeria" class="hover:underline"></a>
+          <a href="/#contacto" class="hover:underline"></a>
         </div>
 
         <a href="/descargar"
            class="hidden md:inline-block ml-auto px-3 py-1 rounded bg-pink-600 hover:bg-pink-700 text-sm">
-          Descargar
+          Trailer
         </a>
 
         {/* botón mobile */}
